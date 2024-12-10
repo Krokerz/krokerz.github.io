@@ -3,7 +3,11 @@
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url('../fonts/Lexend/Lexend-VariableFont_wght.ttf') format('truetype');
+    src: url('../fonts/Lexend/Lexend-VariableFont_wght.ttf') format('embedded-opentype'),
+         url('../fonts/Lexend/Lexend-VariableFont_wght.ttf') format('woff2'),
+         url('../fonts/Lexend/Lexend-VariableFont_wght.ttf') format('woff'),
+         url('../fonts/Lexend/Lexend-VariableFont_wght.ttf') format('truetype'),
+         url('../fonts/Lexend/Lexend-VariableFont_wght.ttf') format('svg');
 }
 
 :root {
@@ -22,7 +26,7 @@
 }
 
 html {
-    font-family: var(--font);
+    font-family: var(--font), Verdana, sans-serif;
     color: var(--font-color);
 }
 input, textarea, button {
