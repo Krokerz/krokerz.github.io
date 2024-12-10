@@ -1,0 +1,74 @@
+:root {
+    --font: "Lexend";
+    --font-color: #f1f3f4;
+
+    --body-bgcolor: #202124;
+
+    --header-bgcolor: #121316;
+    --header-font-color: #f1f3f4bf;
+    --header-hover-bgcolor: #2c2e36;
+    --header-height: 64px;
+
+    --link-font-color: #3985e2;
+    --link-hover-font-color: #70b1ff;
+}
+
+html {
+    font-family: var(--font);
+    color: var(--font-color);
+}
+input, textarea, button {
+    font-family: inherit;
+}
+body {
+    background-color: var(--body-bgcolor);
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: var(--header-bgcolor);
+    border-bottom: grey 1px solid;
+}
+a {
+    color: var(--link-font-color);
+}
+a:hover {
+    color: var(--link-hover-font-color);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1500px;
+    font-size: larger;
+}
+.home img {
+    display: flex;
+    width: var(--header-height);
+    height: auto;
+}
+.main-nav {
+    margin: 0 auto;
+    height: var(--header-height);
+}
+.main-nav ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.main-nav a {
+    display: flex;
+    height: var(--header-height);
+    padding: 0 36px;
+    text-decoration: none;
+    color: var(--header-font-color);
+    align-items: center;
+}
+.main-nav a:hover {
+    color: var(--font-color);
+    background-color: var(--header-hover-bgcolor);
+    border-bottom: var(--font-color) 1px solid;
+}
