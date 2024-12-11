@@ -23,6 +23,8 @@
 
     --link-font-color: #3985e2;
     --link-hover-font-color: #70b1ff;
+
+    --theme-icon-size: 24px;
 }
 
 html {
@@ -50,37 +52,56 @@ a:hover {
 
 .header-container {
     display: flex;
-    align-items: center;
     margin: 0 auto;
     padding: 0 20px;
     max-width: 1500px;
     font-size: larger;
 }
-.home img {
+.header-container * {
     display: flex;
-    width: var(--header-height);
-    height: auto;
+    height: var(--header-height);
+    align-items: center;
+    color: var(--header-font-color);
+}
+.home img {
+    border-radius: 50%;
 }
 .main-nav {
     margin: 0 auto;
-    height: var(--header-height);
 }
 .main-nav ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
     list-style-type: none;
 }
 .main-nav a {
-    display: flex;
-    height: var(--header-height);
     padding: 0 36px;
     text-decoration: none;
-    color: var(--header-font-color);
-    align-items: center;
 }
 .main-nav a:hover {
     color: var(--font-color);
     background-color: var(--header-hover-bgcolor);
     border-bottom: var(--font-color) 1px solid;
+}
+.main-nav ul, .theme-button {
+    margin: 0;
+    padding: 0;
+}
+.theme-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: fit-content;
+    margin: auto 0;
+    border-radius: 50%;
+}
+.theme-button span {
+    background: url(/img/moon.svg);
+    background-size: var(--theme-icon-size);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: var(--theme-icon-size);
+    width: var(--theme-icon-size);
+    padding: 8px;
+}
+.theme-button:hover {
+    background-color: var(--header-hover-bgcolor);
 }
