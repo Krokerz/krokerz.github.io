@@ -49,13 +49,19 @@ a {
 a:hover {
     color: var(--link-hover-font-color);
 }
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+}
 
 .header-container {
     display: flex;
     margin: 0 auto;
     padding: 0 20px;
-    max-width: 1500px;
     font-size: larger;
+    max-width: 1500px;
 }
 .header-container * {
     display: flex;
@@ -71,9 +77,14 @@ a:hover {
 }
 .main-nav ul {
     list-style-type: none;
+    width: 450px;
+}
+.main-nav li {
+    flex: auto;
 }
 .main-nav a {
-    padding: 0 36px;
+    flex: 1;
+    justify-content: center;
     text-decoration: none;
 }
 .main-nav a:hover {
@@ -89,7 +100,7 @@ a:hover {
     background: none;
     border: none;
     cursor: pointer;
-    height: fit-content;
+    height: max-content;
     margin: auto 0;
     border-radius: 50%;
 }
@@ -104,4 +115,23 @@ a:hover {
 }
 .theme-button:hover {
     background-color: var(--header-hover-bgcolor);
+}
+.featured {
+    
+}
+.featured h1 {
+
+}
+[class$="-entries"] {
+    display: flex;
+    gap: 1rem;
+}
+[class$="-entries"] article {
+    width: 350px;
+    height: 300px;
+    border: grey 1px solid;
+    border-radius: 5%;
+}
+[class$="-entries"] article:hover {
+    box-shadow: 0 0 3px white;
 }
