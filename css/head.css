@@ -19,12 +19,9 @@
     --header-bgcolor: #121316;
     --header-font-color: #f1f3f4bf;
     --header-hover-bgcolor: #2c2e36;
-    --header-height: 64px;
 
     --link-font-color: #3985e2;
     --link-hover-font-color: #70b1ff;
-
-    --theme-icon-size: 24px;
 }
 
 html {
@@ -56,26 +53,23 @@ a:hover {
     padding: 0 20px;
     font-size: larger;
     max-width: 1500px;
+    justify-content: space-between;
 }
 .header-container * {
-    display: flex;
-    height: var(--header-height);
+    height: 64px;
     align-items: center;
     color: var(--header-font-color);
 }
 .home img {
     border-radius: 50%;
 }
-.main-nav {
-    margin: 0 auto;
-}
 .main-nav ul {
+    display: flex;
     list-style-type: none;
     width: 450px;
 }
 .main-nav li {
-    display: inline-block;
-    flex: auto;
+    flex: 1;
 }
 .main-nav li::after {
     content: "";
@@ -89,6 +83,7 @@ a:hover {
     width: 100%;
 }
 .main-nav a {
+    display: flex;
     justify-content: center;
     text-decoration: none;
     transition: background-color 0.2s ease;
@@ -97,27 +92,28 @@ a:hover {
     color: var(--font-color);
     background-color: var(--header-hover-bgcolor);
 }
-.main-nav ul, .theme-button {
+.main-nav ul {
     margin: 0;
     padding: 0;
 }
+.theme-button-wrapper {
+    display: flex;
+    justify-content: center;
+    flex: 0 0 64px;
+}
 .theme-button {
+    display: flex;
+    justify-content: center;
     background: none;
     border: none;
     cursor: pointer;
-    height: max-content;
-    margin: auto 0;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     transition: background-color 0.2s ease;
 }
-.theme-button span {
-    background: url(/img/moon.svg);
-    background-size: var(--theme-icon-size);
-    background-repeat: no-repeat;
-    background-position: center;
-    height: var(--theme-icon-size);
-    width: var(--theme-icon-size);
-    padding: 8px;
+.theme-button img {
+    height: 24px;
 }
 .theme-button:hover {
     background-color: var(--header-hover-bgcolor);

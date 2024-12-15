@@ -5,8 +5,8 @@
         <meta name="author" content="Kroaker"/>
         <meta name="description" content="A personal website"/>
         <title>KroakDen</title>
-        <link rel="icon" type="image/x-icon" href="img/icon.jpeg"/>
-        <link rel="stylesheet" href="css/index.css"/>
+        <link rel="icon" type="image/x-icon" href="/img/icon.jpeg"/>
+        <link rel="stylesheet" href="/css/index.css"/>
     </head>
 
     <body>
@@ -14,7 +14,7 @@
             <div class="header-container">
                 <div class="home">
                     <a href="/">
-                        <img src="img/icon.jpeg" alt="Home"/>
+                        <img src="/img/icon.jpeg" alt="Home"/>
                     </a>
                 </div>
                 <nav class="main-nav">
@@ -25,17 +25,17 @@
                         <li>
                             <a href="/rambles">Rambles</a>
                         </li>
-                        <li>
-                            <a href="/about">About</a>
-                        </li>
                     </ul>
                 </nav>
-                <button class="theme-button" type="button" title="Change Theme">
-                    <span></span>
-                </button>
+                <div class="theme-button-wrapper">
+                    <button class="theme-button" type="button" title="Change Theme">
+                        <img src="img/moon.svg" alt="Night mode">
+                    </button>
+                </div>
             </div>
         </header>
         <main>
+            <p>A personal website where I post project stuff and ramble about stuff</p>
             <section class="featured projects">
                 <h1>
                     Projects
@@ -68,6 +68,9 @@
                     </article>
                 </div>
             </section>
+            <footer>
+
+            </footer>
             <!-- <form action="https://httpbin.org/post" method="post">
                 <fieldset>
                     <legend>Posting</legend>
