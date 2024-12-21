@@ -7,35 +7,54 @@
         <title>KroakDen</title>
         <link rel="icon" type="image/x-icon" href="/img/icon.jpeg"/>
         <link rel="stylesheet" href="/css/projects.css"/>
+        <!-- <script>
+            function addToList() {
+                let textInput = document.getElementById("text-input").value;
+
+                let newInsert = document.createElement("li");
+                let text = document.createTextNode(textInput);
+                
+                newInsert.appendChild(text);
+                document.getElementsByClassName("list").appendChild(newInsert);
+            }
+        </script> -->
     </head>
 
     <body>
         <header>
-            <div class="home">
-                <a href="/">
-                    <img src="/img/icon.jpeg" alt="Home"/>
-                </a>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li>
-                        <a href="/projects">Projects</a>
-                    </li>
-                    <li>
-                        <a href="/rambles">Rambles</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="theme-button-wrapper">
-                <button class="theme-button" type="button" title="Change Theme">
-                    <img src="/img/moon.svg" alt="Night mode">
-                </button>
+            <div class="header-container">
+                <div class="home">
+                    <a href="/">
+                        <img src="/img/icon.jpeg" alt="Home"/>
+                    </a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li>
+                            <a href="/projects">Projects</a>
+                        </li>
+                        <li>
+                            <a href="/rambles">Rambles</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="theme-button-wrapper">
+                    <button class="theme-button" type="button" title="Change Theme">
+                        <img src="/img/moon.svg" alt="Night mode">
+                    </button>
+                </div>
             </div>
         </header>
         <main>
             <h1>To-Do List</h1>
-            <button>Insert</button>
-            
+            <div class="input-area">
+                <label for="text-input">Insert to list:</label>
+                <input type="text" id="text-input" name="textInput" required/>
+                <button onclick="addToList()">Insert</button>
+            </div>
+            <ul class="list">
+
+            </ul>
         </main>
     </body>
 </html>
