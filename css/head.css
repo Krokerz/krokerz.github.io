@@ -36,30 +36,28 @@ body {
     margin: 0;
     padding: 0;
 }
-header {
-    background-color: var(--header-bgcolor);
-    border-bottom: grey 1px solid;
-}
 a {
     color: var(--link-font-color);
 }
 a:hover {
     color: var(--link-hover-font-color);
 }
-
-.header-container {
+header {
     display: flex;
     margin: 0 auto;
     padding: 0 20px;
     font-size: larger;
     max-width: 1500px;
+    background-color: var(--header-bgcolor);
+    border-bottom: grey 1px solid;
     justify-content: space-between;
 }
-.header-container * {
+ header * {
     height: 64px;
     align-items: center;
     color: var(--header-font-color);
 }
+
 .home img {
     border-radius: 50%;
 }
