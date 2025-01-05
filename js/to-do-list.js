@@ -5,13 +5,25 @@ function addToList() {
         return;
     }
     
-    let newInsert = document.createElement("li");
-    let check = document.createElement("input");
+    let check = document.createElement("button");
+    check.setAttribute("onclick", "changeCheckJS(this.parentElement)");
+    
+    let checkImg = document.createElement("img");
+    checkImg.setAttribute("src", "/img/check.svg");
+    
+    check.appendChild(checkImg);
+    
     let del = document.createElement("button");
+    del.setAttribute("onclick", "delFromList(this.parentElement)");
     
-    check.setAttribute("type", "checkbox");
-    del.setAttribute("onclick", "delFromList(this)");
+    let delImg = document.createElement("img");
+    delImg.setAttribute("src", "/img/x.svg");
     
+    del.appendChild(delImg);
+    
+    let newInsert = document.createElement("li");
+    newInsert.setAttribute("class", "noCheck-JS");
+
     newInsert.appendChild(check);
     newInsert.innerHTML += textInput;
     newInsert.appendChild(del);
@@ -24,7 +36,7 @@ function addToList() {
 }
 
 function delFromList(elem) {
-    elem.parentElement.remove();
+    elem.remove();
     saveList();
 }
 
@@ -36,4 +48,8 @@ function showList() {
     document.getElementById("todolist").innerHTML = localStorage.getItem("todolist-data");
 }
 
-window.onload = showList;
+function changeCheckJS(elem) {
+    elem.className = (elem.className === "noCheck-JS") ? "yesCheck-JS" : "noCheck-JS";
+}
+
+// window.onload = showList;
