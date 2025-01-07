@@ -68,8 +68,8 @@
     display: flex;
     align-items: center;
     font-size: 1.5rem;
-    gap: 10px;
-    overflow-wrap: anywhere;
+    gap: 12px;
+    white-space: pre-wrap;
     text-align: justify;
 }
 
@@ -114,6 +114,7 @@
 }
 
 .list li button:last-child {
+    margin-left: auto;
     background-color: crimson;
     border-radius: 50%;
     border: 1px crimson solid;
