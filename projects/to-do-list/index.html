@@ -36,16 +36,19 @@
             </div>
         </header>
         <main>
-            <h1>To-Do List</h1>
+            <div class="list-container">
+                <h1>To-Do List</h1>
 
-            <div class="input-area">
-                <label for="text-input">Insert to list:</label>
-                <input type="text" id="text-input"/>
-                <button onclick="addToList()">Insert</button>
-            </div>
+                <hr>
+                
+                <div class="input-area">
+                    <textarea name="text-input" id="text-input" placeholder="Type a To-Do"></textarea>
+                    <button onclick="addToList()">Insert</button>
+                </div>
 
-            <div class="list">
-                <ul id="todolist"></ul>
+                <div class="list">
+                    <ul id="todolist"></ul>
+                </div>
             </div>
         </main>
     </body>

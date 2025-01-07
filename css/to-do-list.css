@@ -1,6 +1,66 @@
 @import url(head.css);
 
+.list-container {
+    display: flex;
+    flex-direction: column;
+    margin: 100px auto;
+    padding: 16px;
+    width: 600px;
+    min-height: 300px;
+    gap: 15px;
+    border-radius: 24px;
+    background-color: rgb(19, 64, 116);
+    box-shadow: 10px 10px rgb(19, 49, 92);
+}
+
+.list-container * {
+    margin: 0;
+    padding: 0;
+}
+
+.list-container h1 {
+    text-align: center;
+}
+
+.list-container hr {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.list-container button {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.input-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-area * {
+    border-radius: 5px;
+}
+
+.input-area textarea {
+    width: 100%;
+    min-height: 1.5rem;
+    resize: vertical;
+    padding-left: 3px;
+}
+
+.input-area button {
+    padding: 0 10px;
+}
+
+.input-area button:hover {
+    background-color: lightgray;
+}
+
 .list ul {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     list-style: none;
 }
 
@@ -9,15 +69,19 @@
     align-items: center;
     font-size: 1.5rem;
     gap: 10px;
+    overflow-wrap: anywhere;
+    text-align: justify;
 }
 
-.list li * {
+.list li button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 1.5rem;
     height: 1.5rem;
 }
 
-:is(.noCheck-JS, .yesCheck-JS) button:first-child {
-    cursor: pointer;
+.list li button:first-child {
     border: 1px gray solid;
     border-radius: 25%;
 }
@@ -27,7 +91,7 @@
 }
 
 .noCheck-JS button:first-child img {
-    display: none;
+    opacity: 0;
 }
 
 .noCheck-JS button:first-child:hover {
@@ -41,9 +105,6 @@
 }
 
 .yesCheck-JS button:first-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color:slategray;
 }
 
@@ -52,22 +113,13 @@
     border-color: dimgray;
 }
 
-:is(.noCheck-JS, .yesCheck-JS) button:last-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+.list li button:last-child {
     background-color: crimson;
     border-radius: 50%;
     border: 1px crimson solid;
 }
 
-:is(.noCheck-JS, .yesCheck-JS) button:last-child img {
-    width: 1rem;
-    height: 1rem;
-}
-
-:is(.noCheck-JS, .yesCheck-JS) button:last-child:hover {
+.list li button:last-child:hover {
     background-color: salmon;
     border-color: salmon;
 }

@@ -52,4 +52,4 @@ function changeCheckJS(elem) {
     elem.className = (elem.className === "noCheck-JS") ? "yesCheck-JS" : "noCheck-JS";
 }
 
-// window.onload = showList;
+window.onload = showList;
