@@ -1,1 +1,1 @@
-<a href="https://krokerz.github.io/" target="_blank" rel="noopener noreferrer">My personal site</a>
+<a href='https://krokerz.github.io/' target='_blank' rel='noopener noreferrer'>My personal site</a>

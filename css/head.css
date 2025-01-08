@@ -11,7 +11,7 @@
 }
 
 :root {
-    --font: "Lexend";
+    --font: 'Lexend';
     --font-color: #f1f3f4;
 
     --body-bgcolor: #202124;
@@ -72,7 +72,7 @@ header {
     flex: 1;
 }
 .main-nav li::after {
-    content: "";
+    content: '';
     display: block;
     width: 0;
     margin: auto;
