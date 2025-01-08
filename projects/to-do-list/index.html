@@ -40,14 +40,20 @@
                 <h1>To-Do List</h1>
 
                 <hr>
-                
+
                 <div class="input-area">
-                    <textarea name="text-input" id="text-input" placeholder="Type a To-Do"></textarea>
-                    <button onclick="addToList()">Insert</button>
+                    <textarea name="text-input" id="text-input" placeholder="Type a task"></textarea>
+                    <button onclick="addToList()" type="button">Insert</button>
                 </div>
 
                 <div class="list">
-                    <ul id="todolist"></ul>
+                    <ul id="todolist">
+                        <h2>Incomplete Tasks</h2>
+                        <div class="incomplete-container" id="not-done"></div>
+                        
+                        <h2>Completed Tasks</h2>
+                        <div class="completed-container" id="done"></div>
+                    </ul>
                 </div>
             </div>
         </main>

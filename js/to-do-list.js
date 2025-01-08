@@ -1,5 +1,5 @@
 function addToList() {
-    const textInput = document.getElementById("text-input").value;
+    const textInput = document.getElementById("text-input").innerHTML;
     
     if (textInput == "") {
         return;
@@ -28,15 +28,29 @@ function addToList() {
     newInsert.innerHTML += textInput;
     newInsert.appendChild(del);
     
-    document.getElementById("todolist").appendChild(newInsert);
+    document.getElementById("not-done").appendChild(newInsert);
     
     saveList();
     
-    document.getElementById("text-input").value = "";
+    document.getElementById("text-input").innerHTML = "";
 }
 
 function delFromList(elem) {
     elem.remove();
+
+    saveList();
+}
+
+function changeCheckJS(elem) {
+    if (elem.className === "noCheck-JS") {
+        elem.className = "yesCheck-JS";
+        document.getElementById("done").appendChild(elem);
+    }
+    else {
+        elem.className = "noCheck-JS";
+        document.getElementById("not-done").appendChild(elem);
+    }
+
     saveList();
 }
 
@@ -46,10 +60,6 @@ function saveList() {
 
 function showList() {
     document.getElementById("todolist").innerHTML = localStorage.getItem("todolist-data");
-}
-
-function changeCheckJS(elem) {
-    elem.className = (elem.className === "noCheck-JS") ? "yesCheck-JS" : "noCheck-JS";
 }
 
 window.onload = showList;
