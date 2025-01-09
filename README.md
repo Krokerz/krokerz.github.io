@@ -1,1 +1,3 @@
-<a href='https://krokerz.github.io/' target='_blank'>My personal site</a>
+<a href='https://krokerz.github.io/'>My personal website</a>
+
+Currently a WIP
