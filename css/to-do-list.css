@@ -5,7 +5,7 @@
     flex-direction: column;
     margin: 100px auto;
     padding: 16px;
-    width: 600px;
+    max-width: 640px;
     min-height: 300px;
     gap: 15px;
     border-radius: 24px;
@@ -33,18 +33,21 @@
     transition: background-color 0.2s ease;
 }
 
+.list-container textarea {
+    width: 100%;
+}
+
 .input-area {
     display: flex;
     justify-content: space-between;
 }
 
-.input-area * {
+.input-area > * {
     border: 1px black solid;
     border-radius: 5px;
 }
 
 .input-area textarea {
-    width: 100%;
     min-height: 2rem;
     resize: vertical;
     padding-left: 3px;
@@ -58,14 +61,12 @@
     background-color: lightgray;
 }
 
-.list ul {
-    list-style: none;
+.list > div {
+    min-height: 150px;
 }
 
-.list div {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.list ul {
+    list-style: none;
 }
 
 .list li {
@@ -73,11 +74,13 @@
     align-items: center;
     font-size: 1.5rem;
     gap: 12px;
+    margin: 6px 0;
+    word-break: break-word;
     white-space: pre-wrap;
     text-align: justify;
 }
 
-.list li button {
+.list button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -85,46 +88,77 @@
     height: 1.5rem;
 }
 
-.list li button:first-child {
-    border: 1px gray solid;
-    border-radius: 25%;
-}
-
-.noCheck-JS button:first-child {
-    background-color: transparent;
-}
-
-.noCheck-JS button:first-child img {
-    opacity: 0;
-}
-
-.noCheck-JS button:first-child:hover {
-    background-color:darkgray;
-    border-color: darkgray;
-}
-
-.yesCheck-JS {
-    color: gray;
-    text-decoration: line-through;
-}
-
-.yesCheck-JS button:first-child {
-    background-color:slategray;
-}
-
-.yesCheck-JS button:first-child:hover {
-    background-color: dimgray;
-    border-color: dimgray;
-}
-
-.list li button:last-child {
+.list button:last-of-type {
     margin-left: auto;
     background-color: crimson;
     border-radius: 50%;
     border: 1px crimson solid;
 }
 
-.list li button:last-child:hover {
+.list button:last-of-type:hover {
     background-color: salmon;
     border-color: salmon;
+}
+
+.list button:first-of-type {
+    border: 1px gray solid;
+    border-radius: 25%;
+}
+
+.list textarea {
+    background: none;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    white-space: pre-wrap;
+    font-size: inherit;
+    color: inherit;
+    pointer-events: none;
+}
+
+.list .task-edit-on {
+    background-color: rgb(8, 35, 65);
+    border-bottom: 2px rgb(96, 150, 186) solid;
+    pointer-events: auto;
+}
+
+.task-mover {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.task-mover img {
+    cursor: pointer;
+}
+
+.incomplete-container {
+    margin-bottom: 10px;
+}
+
+.noCheck-JS button:first-of-type {
+    background-color: transparent;
+}
+
+.noCheck-JS button:first-of-type img {
+    opacity: 0;
+}
+
+.noCheck-JS button:first-of-type:hover {
+    background-color:darkgray;
+    border-color: darkgray;
+}
+
+.yesCheck-JS button:first-of-type {
+    background-color:slategray;
+}
+
+.yesCheck-JS button:first-of-type:hover {
+    background-color: dimgray;
+    border-color: dimgray;
+}
+
+.yesCheck-JS textarea {
+    color: gray;
+    text-decoration: line-through;
 }
