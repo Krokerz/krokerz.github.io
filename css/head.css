@@ -28,20 +28,25 @@ html {
     font-family: var(--font), Verdana, sans-serif;
     color: var(--font-color);
 }
+
 input, textarea, button {
     font-family: inherit;
 }
+
 body {
     background-color: var(--body-bgcolor);
     margin: 0;
     padding: 0;
 }
+
 a {
     color: var(--link-font-color);
 }
+
 a:hover {
     color: var(--link-hover-font-color);
 }
+
 header {
     background-color: var(--header-bgcolor);
     border-bottom: grey 1px solid;
@@ -55,22 +60,27 @@ header {
     max-width: 1500px;
     justify-content: space-between;
 }
+
 .header-container * {
     height: 64px;
     align-items: center;
     color: var(--header-font-color);
 }
+
 .home img {
     border-radius: 50%;
 }
+
 .main-nav ul {
     display: flex;
     list-style-type: none;
     width: 450px;
 }
+
 .main-nav li {
     flex: 1;
 }
+
 .main-nav li::after {
     content: '';
     display: block;
@@ -79,28 +89,34 @@ header {
     border-top: var(--font-color) 1px solid;
     transition: width 0.1s ease;
 }
+
 .main-nav li:hover::after {
     width: 100%;
 }
+
 .main-nav a {
     display: flex;
     justify-content: center;
     text-decoration: none;
     transition: background-color 0.2s ease;
 }
+
 .main-nav a:hover {
     color: var(--font-color);
     background-color: var(--header-hover-bgcolor);
 }
+
 .main-nav ul {
     margin: 0;
     padding: 0;
 }
+
 .theme-button-wrapper {
     display: flex;
     justify-content: center;
     flex: 0 0 64px;
 }
+
 .theme-button {
     display: flex;
     justify-content: center;
@@ -112,9 +128,11 @@ header {
     border-radius: 50%;
     transition: background-color 0.2s ease;
 }
+
 .theme-button img {
     height: 24px;
 }
+
 .theme-button:hover {
     background-color: var(--header-hover-bgcolor);
 }
