@@ -1,0 +1,75 @@
+@import url(/css/head.css);
+
+:root {
+    --max-article-width: 1000px;
+}
+
+.article-builder {
+    display: flex;
+    flex-direction: column;
+    margin: 12px auto;
+    padding: 0 12px;
+    max-width: var(--max-article-width);
+}
+
+.article-builder :is(h1, h2, p) {
+    display: inline-block;
+    width: 100%;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    cursor: text;
+    transition: background-color 0.2s ease, box-shadow 0.1s ease;
+}
+
+.main-article-info {
+    margin-bottom: 24px;
+}
+
+.main-article-info h1 {
+    font-size: 4rem;
+}
+
+.main-article-info h2 {
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: 200;
+}
+
+.side-article-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.article-tags {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tags div {
+    display: inline;
+    background-color:rgb(40, 81, 156);
+    border: 1px skyblue solid;
+    border-radius: 8px;
+    outline: none;
+    cursor: text;
+    padding: 0 8px;
+}
+
+.article-builder hr {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.article-builder p {
+    font-size: 1rem;
+}
