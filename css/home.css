@@ -14,13 +14,13 @@ main p {
     display: flex;
     gap: 1rem;
 }
-.entries article {
+.entries section {
     width: 350px;
     height: 300px;
     border: grey 1px solid;
     border-radius: 5%;
     transition: box-shadow 0.1s ease;
 }
-.entries article:hover {
+.entries section:hover {
     box-shadow: 0 0 3px var(--font-color);
 }
