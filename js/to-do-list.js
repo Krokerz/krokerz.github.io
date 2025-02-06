@@ -33,7 +33,7 @@ function addToList() {
     let text = document.createElement('textarea');
     text.setAttribute('oninput', 'this.style.height = "1px"; this.style.height = (this.scrollHeight) + "px";');
 
-    text.innerHTML += textInput;
+    text.textContent += textInput;
 
     // del
     let del = document.createElement('button');
@@ -118,6 +118,8 @@ function toggleEdit(elem) {
         elem.nextElementSibling.setAttribute('src', '/img/check.svg');
     }
     else {
+        elem.textContent = elem.value;
+
         elem.removeAttribute('class');
 
         elem.nextElementSibling.setAttribute('src', '/img/edit.svg');
