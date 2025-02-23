@@ -4,10 +4,6 @@
     --max-article-width: 1000px;
 }
 
-/* span {
-    display: inline-block;
-} */
-
 .article-builder {
     display: flex;
     flex-direction: column;
