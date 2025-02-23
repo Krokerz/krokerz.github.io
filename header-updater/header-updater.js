@@ -6,6 +6,8 @@ const headerStr = header.toString();
 const headerReg = RegExp(/<header>[\s\S]*<\/header>/g);
 
 const updateHeaderOfFile = (filePath) => {
+    if (filePath.split('.').pop() !== 'html') return;
+
     const indexFile = fs.readFileSync(filePath);
     let indexStr = indexFile.toString();
     let tagIndex = indexStr.indexOf('<header>');
