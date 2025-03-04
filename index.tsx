@@ -1,3 +1,4 @@
+import { StrictMode } from 'react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
@@ -11,11 +12,11 @@ import ToDoList from '/pages/projects/to-do-list/to-do-list.tsx'
 // import ArticleBuilder from '/pages/projects/article-builder/article-builder.tsx'
 
 createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
+    <StrictMode>
         <Header />
 
         <main>
             <ToDoList />
         </main>
-    </React.StrictMode>
+    </StrictMode>
 );
