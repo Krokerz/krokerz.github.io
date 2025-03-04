@@ -1,10 +1,10 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client';
 
 import './to-do-list.css'
 
 export default function ToDoList() {
-    const [items, setItems] = useState(document.getElementById('not-done').innerHTML = localStorage.getItem('not-done-data'));
+    const [items, setItems] = useState(JSON.parse(localStorage.getItem('not-done-data')));
+    // {num: [text, isDone]}
     
     return (
         <>
@@ -21,12 +21,17 @@ export default function ToDoList() {
                 <div className='list' id='todolist'>
                     <div className='incomplete-container'>
                         <h2>Incomplete Tasks</h2>
-                        <ul id='not-done'></ul>
+                        <ul id='not-done'>
+                            {}
+                            <GetData isDone='f'/>
+                        </ul>
                     </div>
 
                     <div className='completed-container'>
                         <h2>Completed Tasks</h2>
-                        <ul id='done'></ul>
+                        <ul id='done'>
+                            <GetData isDone='t'/>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -35,6 +40,10 @@ export default function ToDoList() {
 }
 
 // TODO: make below work
+
+function GetData({ isDone }) {
+    
+}
 
 function addToList() {
     const textInput = document.getElementById('text-input').value.trim();
@@ -71,7 +80,7 @@ function addToList() {
         </li>
     );
 
-    createRoot(document.getElementById('not-done')).render(newInsert);
+    
 
     // to make textarea's height in accordance with the content. Placed here cuz its after li gets rendered
     // let textareaTemp = document.getElementById('not-done').lastElementChild.getElementsByTagName('textarea')[0];
@@ -144,8 +153,10 @@ function toggleEdit(elem) {
 }
 
 function saveList() {
-    localStorage.setItem('not-done-data', document.getElementById('not-done').innerHTML);
-    localStorage.setItem('done-data', document.getElementById('done').innerHTML);
+    // localStorage.setItem('not-done-data', document.getElementById('not-done').innerHTML);
+    // localStorage.setItem('done-data', document.getElementById('done').innerHTML);
+
+    localStorage.setItem('data', items);
 }
 
 function saveListByClass(className) {
