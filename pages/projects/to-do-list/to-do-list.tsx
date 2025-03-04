@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import React from 'react'
 
 import './to-do-list.css'
 
 export default function ToDoList() {
-    const [items, setItems] = useState(JSON.parse(localStorage.getItem('not-done-data')));
-    // {num: [text, isDone]}
+    const [todo, setToDo] = useState(JSON.parse(localStorage.getItem('todo-data') ?? '{}'));
+    // [[text, isDone]]
     
     return (
         <>
@@ -22,15 +23,14 @@ export default function ToDoList() {
                     <div className='incomplete-container'>
                         <h2>Incomplete Tasks</h2>
                         <ul id='not-done'>
-                            {}
-                            <GetData isDone='f'/>
+                            <GetData data={todo} isDone={false}/>
                         </ul>
                     </div>
 
                     <div className='completed-container'>
                         <h2>Completed Tasks</h2>
                         <ul id='done'>
-                            <GetData isDone='t'/>
+                            <GetData data={todo} isDone={true}/>
                         </ul>
                     </div>
                 </div>
@@ -41,28 +41,28 @@ export default function ToDoList() {
 
 // TODO: make below work
 
-function GetData({ isDone }) {
-    
-}
+function GetData({ data, isDone }: { data: any, isDone: boolean }) {
+    let out: React.JSX.Element[] = [];
 
-function addToList() {
-    const textInput = document.getElementById('text-input').value.trim();
-    
-    if (textInput == '') {
-        return;
+    for (let i of data) {
+        if (isDone === i[1]) out.push(makeListElem(i[0], i[1]));
     }
 
-    const newInsert = (
-        <li className='noCheck-JS'>
+    return <>{out}</>;
+}
+
+function makeListElem(textInput: string, isDone: boolean) {
+    return (
+        <li className={isDone ? 'yesCheck-JS' : 'noCheck-JS'}>
             {/* mover */}
             <div className='task-mover'>
-                <img src='/img/up.svg' onClick={() => {listOrderIncrease(this.parentElement.parentElement)}}></img>
-                <img src='/img/down.svg' onClick={() => {listOrderDecrease(this.parentElement.parentElement)}}></img>
+                <img src='/img/up.svg' onClick={() => {listOrderIncrease(this.parentElement.parentElement)}} alt='up'></img>
+                <img src='/img/down.svg' onClick={() => {listOrderDecrease(this.parentElement.parentElement)}} alt='down'></img>
             </div>
 
             {/* check */}
-            <button onClick={() => {changeCheckJS(this.parentElement)}}>
-                <img src='/img/check.svg'></img>
+            <button onClick={() => {changeCheckJS(this.parentElement)}} type='button'>
+                <img src='/img/check.svg' alt='check'></img>
             </button>
 
             {/* text */}
@@ -71,25 +71,33 @@ function addToList() {
             </textarea>
 
             {/* del */}
-            <button onClick={() => {delFromList(this.parentElement)}}>
-                <img src='/img/x.svg'></img>
+            <button onClick={() => {delFromList(this.parentElement)}} type='button'>
+                <img src='/img/x.svg' alt='delete'></img>
             </button>
 
             {/* edit */}
-            <img src='/img/edit.svg' onClick={() => {toggleEdit(this.previousElementSibling)}}></img>
+            <img src='/img/edit.svg' onClick={() => {toggleEdit(this.previousElementSibling)}} alt='edit'></img>
         </li>
     );
+}
 
+function addToList() {
+    const textInput: string = (document.getElementById('text-input') as HTMLInputElement).value.trim();
     
+    if (textInput == '') {
+        return;
+    }
 
     // to make textarea's height in accordance with the content. Placed here cuz its after li gets rendered
     // let textareaTemp = document.getElementById('not-done').lastElementChild.getElementsByTagName('textarea')[0];
     
     // textAreaHeightChanger(textareaTemp);
     
-    saveList('not-done');
+    // saveList();
     
-    document.getElementById('text-input').value = '';
+    // document.getElementById('text-input').value = '';
+
+    return makeListElem(textInput, false);
 }
 
 function delFromList(elem) {
