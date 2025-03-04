@@ -10,7 +10,7 @@ import Header from '/pages/header.tsx'
 import ToDoList from '/pages/projects/to-do-list/to-do-list.tsx'
 // import ArticleBuilder from '/pages/projects/article-builder/article-builder.tsx'
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <Header />
 
