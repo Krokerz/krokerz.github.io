@@ -107,7 +107,8 @@
     border-radius: 25%;
 }
 
-.list textarea {
+.list :is(p, textarea) {
+    width: 100%;
     box-sizing: border-box;
     background: none;
     border: none;

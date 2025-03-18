@@ -1,184 +1,210 @@
-import { useState } from 'react'
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import './to-do-list.css'
 
+type ToDoData = [number, string, boolean];
+type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+type Ref<T> = React.RefObject<T>;
+
 export default function ToDoList() {
-    const [todo, setToDo] = useState(JSON.parse(localStorage.getItem('todo-data') ?? '{}'));
-    // [[text, isDone]]
-    
+    return (
+        <div className='list-container'>
+            <h1>To-Do List</h1>
+
+            <hr />
+
+            <List />
+        </div>
+    );
+}
+
+function List() {
+    const [todo, setToDo] = useState<ToDoData[]>(JSON.parse(localStorage.getItem('todo-data') ?? '[]'));
+    const textInputRef = useRef<HTMLTextAreaElement>(null);
+
+    // useEffect(() => saveList(todo));
+
     return (
         <>
-            <div className='list-container'>
-                <h1>To-Do List</h1>
+            <div className='input-area'>
+                <textarea name='text-input' placeholder='Type a task' ref={textInputRef}></textarea>
+                <button onClick={() => addToList(textInputRef as Ref<HTMLTextAreaElement>, todo, setToDo)} type='button'>Insert</button>
+            </div>
 
-                <hr />
-
-                <div className='input-area'>
-                    <textarea name='text-input' id='text-input' placeholder='Type a task'></textarea>
-                    <button onClick={addToList} type='button'>Insert</button>
+            <div className='list'>
+                <div className='incomplete-container'>
+                    <h2>Incomplete Tasks</h2>
+                    <ul>
+                        <GetData
+                            isDone={false}
+                            todo={todo}
+                            setToDo={setToDo}
+                        />
+                    </ul>
                 </div>
 
-                <div className='list' id='todolist'>
-                    <div className='incomplete-container'>
-                        <h2>Incomplete Tasks</h2>
-                        <ul id='not-done'>
-                            <GetData data={todo} isDone={false}/>
-                        </ul>
-                    </div>
-
-                    <div className='completed-container'>
-                        <h2>Completed Tasks</h2>
-                        <ul id='done'>
-                            <GetData data={todo} isDone={true}/>
-                        </ul>
-                    </div>
+                <div className='completed-container'>
+                    <h2>Completed Tasks</h2>
+                    <ul>
+                        <GetData
+                            isDone={true}
+                            todo={todo}
+                            setToDo={setToDo}
+                        />
+                    </ul>
                 </div>
             </div>
         </>
     );
 }
 
-// TODO: make below work
+function addToList(
+    textInputRef: Ref<HTMLTextAreaElement>,
+    todo: ToDoData[],
+    setToDo: StateSetter<ToDoData[]>
+) {
+    const textInputElem = textInputRef.current;
+    const textInput = textInputElem.value.trim();
+    
+    textInputElem.value = '';
 
-function GetData({ data, isDone }: { data: any, isDone: boolean }) {
+    if (textInput == '') return;
+
+    setToDo(todo.concat([[Date.now(), textInput, false]]));
+}
+
+function GetData({ isDone, todo, setToDo }: {
+    isDone: boolean,
+    todo: ToDoData[],
+    setToDo: StateSetter<ToDoData[]>
+}) {
     let out: React.JSX.Element[] = [];
 
-    for (let i of data) {
-        if (isDone === i[1]) out.push(makeListElem(i[0], i[1]));
+    for (let i of todo) {
+        if (isDone === i[2]) out.push(<MakeListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
     }
 
     return <>{out}</>;
 }
 
-function makeListElem(textInput: string, isDone: boolean) {
+function MakeListElem({ listElem, todo, setToDo }: {
+    listElem: ToDoData,
+    todo: ToDoData[],
+    setToDo: StateSetter<ToDoData[]>
+}) {
+    const [id, , isDone] = listElem;
+    const currIndex = todo.indexOf(listElem);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [textInput, setTextInput] = useState<string>(listElem[1]);
+    const editableRef = useRef<HTMLTextAreaElement>(null);
+
     return (
-        <li className={isDone ? 'yesCheck-JS' : 'noCheck-JS'}>
+        <li className={isDone ? 'yesCheck-JS' : 'noCheck-JS'} key={id}>
             {/* mover */}
             <div className='task-mover'>
-                <img src='/img/up.svg' onClick={() => {listOrderIncrease(this.parentElement.parentElement)}} alt='up'></img>
-                <img src='/img/down.svg' onClick={() => {listOrderDecrease(this.parentElement.parentElement)}} alt='down'></img>
+                <img src='/img/up.svg'
+                    onClick={() => (currIndex !== 0) && setToDo(taskMover(true, currIndex, todo))}
+
+                    alt='up'
+                ></img>
+                <img src='/img/down.svg'
+                    onClick={() => (currIndex !== todo.length - 1) && setToDo(taskMover(false, currIndex, todo))}
+                    
+                    alt='down'
+                ></img>
             </div>
 
             {/* check */}
-            <button onClick={() => {changeCheckJS(this.parentElement)}} type='button'>
+            <button onClick={() => setToDo(todo.toSpliced(currIndex, 1, [id, textInput, !isDone]))} type='button'>
                 <img src='/img/check.svg' alt='check'></img>
             </button>
 
             {/* text */}
-            <textarea onInput={() => {textAreaHeightChanger(this)}}>
-                {textInput}
-            </textarea>
-
-            {/* del */}
-            <button onClick={() => {delFromList(this.parentElement)}} type='button'>
-                <img src='/img/x.svg' alt='delete'></img>
-            </button>
+            <EditableText
+                textInput={textInput}
+                setTextInput={setTextInput}
+                isEdit={isEdit}
+                editableRef={editableRef}
+            />
 
             {/* edit */}
-            <img src='/img/edit.svg' onClick={() => {toggleEdit(this.previousElementSibling)}} alt='edit'></img>
+            <EditButton
+                isEdit={isEdit}
+                setIsEdit={setIsEdit}
+                todo={todo}
+                setToDo={setToDo}
+                currIndex={currIndex}
+                id={id}
+                isDone={isDone}
+                currEditable={editableRef.current}
+            />
+
+            {/* del */}
+            <button onClick={() => setToDo(todo.toSpliced(currIndex, 1))} type='button'>
+                <img src='/img/x.svg' alt='delete'></img>
+            </button>
         </li>
     );
 }
 
-function addToList() {
-    const textInput: string = (document.getElementById('text-input') as HTMLInputElement).value.trim();
+function taskMover(
+    isUp: boolean,
+    currIndex: number,
+    todo: ToDoData[]
+): ToDoData[] {
+    let otherIndex: number = (isUp) ? currIndex - 1 : currIndex + 1;
+    let currIndexData: ToDoData = todo[currIndex];
     
-    if (textInput == '') {
-        return;
-    }
+    return todo.toSpliced(currIndex, 1, todo[otherIndex]).toSpliced(otherIndex, 1, currIndexData);
+}
 
-    // to make textarea's height in accordance with the content. Placed here cuz its after li gets rendered
-    // let textareaTemp = document.getElementById('not-done').lastElementChild.getElementsByTagName('textarea')[0];
+function EditableText({ textInput, setTextInput, isEdit, editableRef }: { 
+    textInput: string, 
+    setTextInput: StateSetter<string>, 
+    isEdit: boolean, 
+    editableRef: Ref<HTMLTextAreaElement | null>
+}) {
+    useEffect(() => {
+        if (isEdit) {
+            heightChanger(editableRef.current!);
+        }
+    });
+
+    return (isEdit) ?
+        <textarea className='task-edit-on' onChange={() => setTextInput(editableRef.current!.value)} ref={editableRef} defaultValue={textInput}></textarea>
+        :
+        <p>{textInput}</p>;
+}
+
+function heightChanger(currEditable: HTMLTextAreaElement) {
+    console.log('typing')
+
+    currEditable.style.height = '1px';
+    currEditable.style.height = `${currEditable.scrollHeight}px`;
+}
     
-    // textAreaHeightChanger(textareaTemp);
-    
-    // saveList();
-    
-    // document.getElementById('text-input').value = '';
+function EditButton({ isEdit, setIsEdit, todo, setToDo, currIndex, id, isDone, currEditable }: {
+    isEdit: boolean,
+    setIsEdit: StateSetter<boolean>,
+    todo: ToDoData[],
+    setToDo: StateSetter<ToDoData[]>,
+    currIndex: number,
+    id: number,
+    isDone: boolean,
+    currEditable: HTMLTextAreaElement | null
+}) {
+    let src: string = isEdit ? 'check' : 'edit';
 
-    return makeListElem(textInput, false);
+    let handleClick = () => {
+        setIsEdit(!isEdit);
+
+        isEdit && setToDo(todo.toSpliced(currIndex, 1, [id, currEditable!.value, isDone]));
+    };
+
+    return <img src={`/img/${src}.svg`} onClick={handleClick} alt={src}></img>
 }
 
-function delFromList(elem) {
-    let className = elem.className;
-
-    elem.remove();
-
-    saveListByClass(className);
+function saveList(todo: ToDoData[]) {
+    console.log(todo);
+    localStorage.setItem('todo-data', todo.toString());
 }
-
-function changeCheckJS(elem) {
-    if (elem.className === 'noCheck-JS') {
-        elem.className = 'yesCheck-JS';
-        document.getElementById('done').appendChild(elem);
-    }
-    else {
-        elem.className = 'noCheck-JS';
-        document.getElementById('not-done').appendChild(elem);
-    }
-
-    saveList();
-}
-
-function textAreaHeightChanger(elem) {
-    elem.style.height = `${Math.max(1, elem.scrollHeight)}px`;
-}
-
-function listOrderIncrease(elem) {
-    let temp = elem.querySelector('textarea').outerHTML;
-
-    elem.querySelector('textarea').outerHTML = elem.previousElementSibling.querySelector('textarea').outerHTML;
-    elem.previousElementSibling.querySelector('textarea').outerHTML = temp;
-
-    saveListByClass(elem.className);
-}
-
-function listOrderDecrease(elem) {
-    let temp = elem.querySelector('textarea').outerHTML;
-
-    elem.querySelector('textarea').outerHTML = elem.nextElementSibling.querySelector('textarea').outerHTML;
-    elem.nextElementSibling.querySelector('textarea').outerHTML = temp;
-
-    saveListByClass(elem.className);
-}
-
-function toggleEdit(elem) {
-    if (window.getComputedStyle(elem).getPropertyValue('pointer-events') === 'none') {
-        elem.setAttribute('class', 'task-edit-on');
-
-        elem.nextElementSibling.setAttribute('src', '/img/check.svg');
-    }
-    else {
-        elem.textContent = elem.value;
-
-        elem.removeAttribute('class');
-
-        elem.nextElementSibling.setAttribute('src', '/img/edit.svg');
-
-        saveListByClass(elem.parentElement.className);
-    }
-}
-
-function saveList() {
-    // localStorage.setItem('not-done-data', document.getElementById('not-done').innerHTML);
-    // localStorage.setItem('done-data', document.getElementById('done').innerHTML);
-
-    localStorage.setItem('data', items);
-}
-
-function saveListByClass(className) {
-    if (className === 'noCheck-JS') {
-        localStorage.setItem('not-done-data', document.getElementById('not-done').innerHTML);
-    }
-    else {
-        localStorage.setItem('done-data', document.getElementById('done').innerHTML);
-    }
-}
-
-function showList() {
-    document.getElementById('not-done').innerHTML = localStorage.getItem('not-done-data');
-    document.getElementById('done').innerHTML = localStorage.getItem('done-data');
-}
-
-window.onload = showList;
