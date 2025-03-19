@@ -24,33 +24,46 @@ function List() {
 
     useEffect(() => localStorage.setItem('todo-data', JSON.stringify(todo)), [todo]);
 
+    let notDone: React.JSX.Element[] = [];
+    let done: React.JSX.Element[] = [];
+
+    for (let i of todo) {
+        (i[2]) ?
+            done.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />)
+            :
+            notDone.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
+    }
+
+    const handleAddClick = () => {
+        const textInputElem: HTMLTextAreaElement = textInputRef.current!;
+        const textInput: string = textInputElem.value.trim();
+        
+        textInputElem.value = '';
+
+        if (textInput == '') return;
+
+        setToDo(todo.concat([[Date.now(), textInput, false]]));
+    };
+
     return (
         <>
             <div className='input-area'>
                 <textarea name='text-input' placeholder='Type a task' ref={textInputRef}></textarea>
-                <button onClick={() => addToList(textInputRef as Ref<HTMLTextAreaElement>, todo, setToDo)} type='button'>Insert</button>
+                <button onClick={handleAddClick} type='button'>Insert</button>
             </div>
 
             <div className='list'>
                 <div className='incomplete-container'>
                     <h2>Incomplete Tasks</h2>
                     <ul>
-                        <GetData
-                            isDone={false}
-                            todo={todo}
-                            setToDo={setToDo}
-                        />
+                        {notDone}
                     </ul>
                 </div>
 
                 <div className='completed-container'>
                     <h2>Completed Tasks</h2>
                     <ul>
-                        <GetData
-                            isDone={true}
-                            todo={todo}
-                            setToDo={setToDo}
-                        />
+                        {done}
                     </ul>
                 </div>
             </div>
@@ -58,45 +71,38 @@ function List() {
     );
 }
 
-function addToList(
-    textInputRef: Ref<HTMLTextAreaElement>,
-    todo: ToDoData[],
-    setToDo: StateSetter<ToDoData[]>
-) {
-    const textInputElem = textInputRef.current;
-    const textInput = textInputElem.value.trim();
-    
-    textInputElem.value = '';
-
-    if (textInput == '') return;
-
-    setToDo(todo.concat([[Date.now(), textInput, false]]));
-}
-
-function GetData({ isDone, todo, setToDo }: {
-    isDone: boolean,
-    todo: ToDoData[],
-    setToDo: StateSetter<ToDoData[]>
-}) {
-    let out: React.JSX.Element[] = [];
-
-    for (let i of todo) {
-        if (isDone === i[2]) out.push(<MakeListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
-    }
-
-    return <>{out}</>;
-}
-
-function MakeListElem({ listElem, todo, setToDo }: {
+function ListElem({ listElem, todo, setToDo }: {
     listElem: ToDoData,
     todo: ToDoData[],
     setToDo: StateSetter<ToDoData[]>
 }) {
-    const [id, , isDone] = listElem;
+    const [id, textInput, isDone] = listElem;
     const currIndex = todo.indexOf(listElem);
     const [isEdit, setIsEdit] = useState<boolean>(false);
-    const [textInput, setTextInput] = useState<string>(listElem[1]);
     const editableRef = useRef<HTMLTextAreaElement>(null);
+    const editImgName = isEdit ? 'check' : 'edit';
+
+    const heightSyncer = () => {
+        editableRef.current!.style.height = '1px';
+        editableRef.current!.style.height = `${editableRef.current!.scrollHeight}px`;
+    };
+
+    const handleEditClick = () => {
+        setIsEdit(!isEdit);
+        
+        isEdit && setToDo(todo.toSpliced(currIndex, 1, [id, editableRef.current!.value, isDone]));
+    };
+    
+    const handleTaskMoverClick = (isUp: boolean) => {
+        let otherIndex: number = (isUp) ? currIndex - 1 : currIndex + 1;
+        let currIndexData: ToDoData = todo[currIndex];
+        
+        return todo.toSpliced(currIndex, 1, todo[otherIndex]).toSpliced(otherIndex, 1, currIndexData);
+    };
+
+    useEffect(() => {
+        isEdit && heightSyncer();
+    }, [isEdit]);
 
     return (
         <li className={isDone ? 'yesCheck-JS' : 'noCheck-JS'} key={id}>
@@ -104,12 +110,12 @@ function MakeListElem({ listElem, todo, setToDo }: {
             <div className='task-mover'>
                 <img
                     src='/img/up.svg'
-                    onClick={() => (currIndex !== 0) && setToDo(taskMover(true, currIndex, todo))}
+                    onClick={() => (currIndex !== 0) && setToDo(() => handleTaskMoverClick(true))}
                     alt='up'
                 ></img>
                 <img
                     src='/img/down.svg'
-                    onClick={() => (currIndex !== todo.length - 1) && setToDo(taskMover(false, currIndex, todo))}
+                    onClick={() => (currIndex !== todo.length - 1) && setToDo(() => handleTaskMoverClick(false))}
                     alt='down'
                 ></img>
             </div>
@@ -120,24 +126,18 @@ function MakeListElem({ listElem, todo, setToDo }: {
             </button>
 
             {/* text */}
-            <EditableText
-                textInput={textInput}
-                setTextInput={setTextInput}
-                isEdit={isEdit}
-                editableRef={editableRef}
-            />
+            {(isEdit) ?
+                <textarea
+                    className='task-edit-on'
+                    onChange={heightSyncer}
+                    ref={editableRef}
+                    defaultValue={textInput}
+                ></textarea>
+                :
+                <p>{textInput}</p>}
 
             {/* edit */}
-            <EditButton
-                isEdit={isEdit}
-                setIsEdit={setIsEdit}
-                todo={todo}
-                setToDo={setToDo}
-                currIndex={currIndex}
-                id={id}
-                isDone={isDone}
-                currEditable={editableRef.current}
-            />
+            <img src={`/img/${editImgName}.svg`} onClick={handleEditClick} alt={editImgName}></img>
 
             {/* del */}
             <button onClick={() => setToDo(todo.toSpliced(currIndex, 1))} type='button'>
@@ -145,62 +145,4 @@ function MakeListElem({ listElem, todo, setToDo }: {
             </button>
         </li>
     );
-}
-
-function taskMover(
-    isUp: boolean,
-    currIndex: number,
-    todo: ToDoData[]
-): ToDoData[] {
-    let otherIndex: number = (isUp) ? currIndex - 1 : currIndex + 1;
-    let currIndexData: ToDoData = todo[currIndex];
-    
-    return todo.toSpliced(currIndex, 1, todo[otherIndex]).toSpliced(otherIndex, 1, currIndexData);
-}
-
-function EditableText({ textInput, setTextInput, isEdit, editableRef }: { 
-    textInput: string, 
-    setTextInput: StateSetter<string>, 
-    isEdit: boolean, 
-    editableRef: Ref<HTMLTextAreaElement | null>
-}) {
-    useEffect(() => {
-        isEdit && heightChanger(editableRef.current!);
-    });
-
-    return (isEdit) ?
-        <textarea
-            className='task-edit-on'
-            onChange={() => setTextInput(editableRef.current!.value)}
-            ref={editableRef}
-            defaultValue={textInput}
-        ></textarea>
-        :
-        <p>{textInput}</p>;
-}
-
-function heightChanger(currEditable: HTMLTextAreaElement) {
-    currEditable.style.height = '1px';
-    currEditable.style.height = `${currEditable.scrollHeight}px`;
-}
-    
-function EditButton({ isEdit, setIsEdit, todo, setToDo, currIndex, id, isDone, currEditable }: {
-    isEdit: boolean,
-    setIsEdit: StateSetter<boolean>,
-    todo: ToDoData[],
-    setToDo: StateSetter<ToDoData[]>,
-    currIndex: number,
-    id: number,
-    isDone: boolean,
-    currEditable: HTMLTextAreaElement | null
-}) {
-    let src: string = isEdit ? 'check' : 'edit';
-
-    let handleClick = () => {
-        setIsEdit(!isEdit);
-
-        isEdit && setToDo(todo.toSpliced(currIndex, 1, [id, currEditable!.value, isDone]));
-    };
-
-    return <img src={`/img/${src}.svg`} onClick={handleClick} alt={src}></img>;
 }
