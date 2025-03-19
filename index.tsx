@@ -1,5 +1,6 @@
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router'
 
 import './index.css'
 
@@ -12,10 +13,20 @@ import ToDoList from './pages/projects/to-do-list/to-do-list.tsx'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <Header />
-
-        <main>
-            <ToDoList />
-        </main>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </StrictMode>
 );
+
+function App() {
+    return (
+        <>
+            <Header />
+
+            <main>
+                <ToDoList />
+            </main>
+        </>
+    );
+}
