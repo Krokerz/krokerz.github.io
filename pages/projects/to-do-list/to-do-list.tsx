@@ -34,15 +34,15 @@ function List() {
     };
     
     useEffect(() => localStorage.setItem('todo-data', JSON.stringify(todo)), [todo]);
-    
+
     let notDone: React.JSX.Element[] = [];
     let done: React.JSX.Element[] = [];
-    
+
     for (let i of todo) {
         (i[2]) ?
-        done.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />)
-        :
-        notDone.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
+            done.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />)
+            :
+            notDone.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
     }
 
     return (
