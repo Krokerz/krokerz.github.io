@@ -158,7 +158,7 @@
     border-color: dimgray;
 }
 
-.yesCheck-JS textarea {
+.yesCheck-JS :is(p, textarea) {
     color: gray;
     text-decoration: line-through;
 }

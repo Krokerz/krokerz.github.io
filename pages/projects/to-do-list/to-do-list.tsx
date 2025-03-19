@@ -22,7 +22,7 @@ function List() {
     const [todo, setToDo] = useState<ToDoData[]>(JSON.parse(localStorage.getItem('todo-data') ?? '[]'));
     const textInputRef = useRef<HTMLTextAreaElement>(null);
 
-    // useEffect(() => saveList(todo));
+    useEffect(() => localStorage.setItem('todo-data', JSON.stringify(todo)), [todo]);
 
     return (
         <>
@@ -102,14 +102,14 @@ function MakeListElem({ listElem, todo, setToDo }: {
         <li className={isDone ? 'yesCheck-JS' : 'noCheck-JS'} key={id}>
             {/* mover */}
             <div className='task-mover'>
-                <img src='/img/up.svg'
+                <img
+                    src='/img/up.svg'
                     onClick={() => (currIndex !== 0) && setToDo(taskMover(true, currIndex, todo))}
-
                     alt='up'
                 ></img>
-                <img src='/img/down.svg'
+                <img
+                    src='/img/down.svg'
                     onClick={() => (currIndex !== todo.length - 1) && setToDo(taskMover(false, currIndex, todo))}
-                    
                     alt='down'
                 ></img>
             </div>
@@ -165,20 +165,21 @@ function EditableText({ textInput, setTextInput, isEdit, editableRef }: {
     editableRef: Ref<HTMLTextAreaElement | null>
 }) {
     useEffect(() => {
-        if (isEdit) {
-            heightChanger(editableRef.current!);
-        }
+        isEdit && heightChanger(editableRef.current!);
     });
 
     return (isEdit) ?
-        <textarea className='task-edit-on' onChange={() => setTextInput(editableRef.current!.value)} ref={editableRef} defaultValue={textInput}></textarea>
+        <textarea
+            className='task-edit-on'
+            onChange={() => setTextInput(editableRef.current!.value)}
+            ref={editableRef}
+            defaultValue={textInput}
+        ></textarea>
         :
         <p>{textInput}</p>;
 }
 
 function heightChanger(currEditable: HTMLTextAreaElement) {
-    console.log('typing')
-
     currEditable.style.height = '1px';
     currEditable.style.height = `${currEditable.scrollHeight}px`;
 }
@@ -201,10 +202,5 @@ function EditButton({ isEdit, setIsEdit, todo, setToDo, currIndex, id, isDone, c
         isEdit && setToDo(todo.toSpliced(currIndex, 1, [id, currEditable!.value, isDone]));
     };
 
-    return <img src={`/img/${src}.svg`} onClick={handleClick} alt={src}></img>
-}
-
-function saveList(todo: ToDoData[]) {
-    console.log(todo);
-    localStorage.setItem('todo-data', todo.toString());
+    return <img src={`/img/${src}.svg`} onClick={handleClick} alt={src}></img>;
 }
