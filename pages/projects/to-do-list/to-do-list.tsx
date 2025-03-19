@@ -45,27 +45,6 @@ function List() {
             notDone.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
     }
 
-    let notDone: React.JSX.Element[] = [];
-    let done: React.JSX.Element[] = [];
-
-    for (let i of todo) {
-        (i[2]) ?
-            done.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />)
-            :
-            notDone.push(<ListElem listElem={i} todo={todo} setToDo={setToDo} key={i[0]} />);
-    }
-
-    const handleAddClick = () => {
-        const textInputElem: HTMLTextAreaElement = textInputRef.current!;
-        const textInput: string = textInputElem.value.trim();
-        
-        textInputElem.value = '';
-
-        if (textInput == '') return;
-
-        setToDo(todo.concat([[Date.now(), textInput, false]]));
-    };
-
     return (
         <>
             <div className='input-area'>
